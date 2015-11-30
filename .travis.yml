@@ -8,18 +8,15 @@ sudo: false
 cache:
   directories:
     - ~/.composer/cache
-    - ~/composer
-
-before_install:
-  - phpenv config-add .travis.php.ini
-  - if [ -f ~/composer/composer.phar ]; then mv ~/composer/composer.phar ./; else wget https://getcomposer.org/composer.phar; fi
-  - mkdir -p ~/composer
-  - cp composer.phar ~/composer/composer.phar
 
 install:
-  - php -d memory_limit=-1 ./composer.phar install --no-progress --prefer-dist
+  - composer install --no-progress --prefer-dist
 
 script: ./bin/phpunit
+
+addons:
+  code_climate:
+    repo_token: d2a43e8a8a584e1c9e6d8e2ec1f3bd1052a67bc5879431d2a3ac1c5304dfb954
 
 after_script:
   - ./bin/test-reporter
