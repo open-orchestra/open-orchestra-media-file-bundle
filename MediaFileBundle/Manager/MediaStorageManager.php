@@ -21,16 +21,27 @@ class MediaStorageManager
     }
 
     /**
-     * Upload a file with gaufrette with the key $key and content $filecontent
+     * Upload $filePath file with the key $key
      * 
-     * @param string $key
-     * @param string $filecontent
+     * @param string  $key
+     * @param string  $filePath
+     * @param boolean $deleteAfterUpload
      *
      * @return integer|boolean The number of bytes that were written into the file
      */
-    public function uploadContent($key, $filecontent)
+    public function uploadFile($key, $filePath, $deleteAfterUpload = true)
     {
-        return $this->adapter->write($key, $filecontent);
+        if (is_dir($filePath)) {
+            return 0;
+        }
+
+        $size =  $this->adapter->write($key, file_get_contents($filePath));
+
+        if ($deleteAfterUpload) {
+            unlink($filePath);
+        }
+
+        return $size;
     }
 
     /**

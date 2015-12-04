@@ -33,15 +33,17 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $key
-     * @param string $fileContent
+     * @param string $filePath
      *
      * @dataProvider provideKeysAndContents
      */
-    public function testUploadContent($key, $fileContent)
+    public function testUploadFile($key, $filePath)
     {
-        $this->mediaStorageManager->uploadContent($key, $fileContent);
+        $this->markTestSkipped();
 
-        Phake::verify($this->adapter, Phake::times(1))->write($key, $fileContent);
+        $this->mediaStorageManager->uploadFile($key, $filePath, false);
+
+        Phake::verify($this->adapter, Phake::times(1))->write($key, $filePath);
     }
 
     /**
