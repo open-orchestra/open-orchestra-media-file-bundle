@@ -28,7 +28,7 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
         $this->filesystemMap = Phake::mock('Knp\Bundle\GaufretteBundle\FilesystemMap');
         Phake::when($this->filesystemMap)->get(Phake::anyParameters())->thenReturn($this->filesystem);
 
-        $this->mediaStorageManager = new mediaStorageManager($this->filesystemMap, 'someFileSystem');
+        $this->mediaStorageManager = new MediaStorageManager($this->filesystemMap, 'someFileSystem');
     }
 
     /**
@@ -39,7 +39,7 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testUploadFile($key, $filePath)
     {
-        $this->markTestSkipped();
+        $this->markTestSkipped("Skipped until media tests are rewrote");
 
         $this->mediaStorageManager->uploadFile($key, $filePath, false);
 

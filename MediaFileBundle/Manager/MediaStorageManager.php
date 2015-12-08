@@ -27,7 +27,7 @@ class MediaStorageManager
      * @param string  $filePath
      * @param boolean $deleteAfterUpload
      *
-     * @return integer|boolean The number of bytes that were written into the file
+     * @return int The number of bytes written into the file
      */
     public function uploadFile($key, $filePath, $deleteAfterUpload = true)
     {
@@ -59,8 +59,10 @@ class MediaStorageManager
     /**
      * Download in $downloadDir the $key file from storage
      * 
-     * @param $key
-     * @param $downloadDir
+     * @param string $key
+     * @param string $downloadDir
+     * 
+     * @return string
      */
     public function downloadFile($key, $downloadDir)
     {
