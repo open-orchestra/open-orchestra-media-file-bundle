@@ -1,9 +1,9 @@
 parameters:
-    open_orchestra_media_file.manager.uploaded_media.class: OpenOrchestra\MediaFileBundle\Manager\UploadedMediaManager
+    open_orchestra_media_file.manager.storage.class: OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager
 
 services:
-    open_orchestra_media_file.manager.uploaded_media:
-        class: %open_orchestra_media_file.manager.uploaded_media.class%
+    open_orchestra_media_file.manager.storage:
+        class: %open_orchestra_media_file.manager.storage.class%
         arguments:
             - @knp_gaufrette.filesystem_map
-            - %open_orchestra_media.filesystem%
+            - %open_orchestra_media_file.filesystem%
