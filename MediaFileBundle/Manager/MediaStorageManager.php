@@ -2,6 +2,7 @@
 
 namespace OpenOrchestra\MediaFileBundle\Manager;
 
+use OpenOrchestra\MediaFileBundle\Exception\BadFileException;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
 
 /**
@@ -32,7 +33,7 @@ class MediaStorageManager
     public function uploadFile($key, $filePath, $deleteAfterUpload = true)
     {
         if (is_dir($filePath)) {
-            return 0;
+            throw new BadFileException();
         }
 
         $size =  $this->adapter->write($key, file_get_contents($filePath));
