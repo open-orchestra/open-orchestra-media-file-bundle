@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaFileBundle\Tests\Manager;
 
 use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use Phake;
+use ReflectionObject;
 
 /**
  * Class MediaStorageManagerTest
@@ -100,5 +101,19 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
         $this->mediaStorageManager->exists($key);
 
         Phake::verify($this->adapter, Phake::times(1))->exists($key);
+    }
+
+    /**
+     * Clean up object
+     */
+    protected function tearDown()
+    {
+        $refl = new ReflectionObject($this);
+        foreach ($refl->getProperties() as $prop) {
+            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
+                $prop->setAccessible(true);
+                $prop->setValue($this, null);
+            }
+        }
     }
 }

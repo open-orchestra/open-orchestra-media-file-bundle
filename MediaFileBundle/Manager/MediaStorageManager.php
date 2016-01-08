@@ -29,6 +29,7 @@ class MediaStorageManager
      * @param boolean $deleteAfterUpload
      *
      * @return int The number of bytes written into the file
+     * @throws BadFileException
      */
     public function uploadFile($key, $filePath, $deleteAfterUpload = true)
     {
