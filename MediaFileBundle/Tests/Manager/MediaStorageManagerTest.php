@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaFileBundle\Tests\Manager;
 
 use OpenOrchestra\MediaFileBundle\Manager\MediaStorageManager;
 use Phake;
+use ReflectionObject;
 
 /**
  * Class MediaStorageManagerTest
