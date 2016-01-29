@@ -13,8 +13,9 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
 {
     protected $mediaStorageManager;
     protected $adapter;
-    protected $filesystem;
+    protected $gaufrettefilesystem;
     protected $filesystemMap;
+    protected $filesystem;
 
     /**
      * Set up the test
@@ -23,28 +24,36 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->adapter = Phake::mock('Gaufrette\Adapter');
 
-        $this->filesystem = Phake::mock('Gaufrette\Filesystem');
-        Phake::when($this->filesystem)->getAdapter()->thenReturn($this->adapter);
+        $this->gaufrettefilesystem = Phake::mock('Gaufrette\Filesystem');
+        Phake::when($this->gaufrettefilesystem)->getAdapter()->thenReturn($this->adapter);
 
         $this->filesystemMap = Phake::mock('Knp\Bundle\GaufretteBundle\FilesystemMap');
-        Phake::when($this->filesystemMap)->get(Phake::anyParameters())->thenReturn($this->filesystem);
+        Phake::when($this->filesystemMap)->get(Phake::anyParameters())->thenReturn($this->gaufrettefilesystem);
 
-        $this->mediaStorageManager = new MediaStorageManager($this->filesystemMap, 'someFileSystem');
+        $this->filesystem = Phake::mock('Symfony\Component\Filesystem\Filesystem');
+
+        $this->mediaStorageManager =
+            new MediaStorageManager($this->filesystemMap, 'someFileSystem', $this->filesystem);
     }
 
     /**
      * @param string $key
      * @param string $filePath
+     * @param bool   $delete
+     * @param int    expectedDelete
+     * @param int    expectedSize
      *
      * @dataProvider provideKeysAndContents
      */
-    public function testUploadFile($key, $filePath)
+    public function testUploadFile($key, $filePath, $delete, $expectedDelete, $expectedSize)
     {
-        $this->markTestSkipped("Skipped until media tests are rewrote");
+        Phake::when($this->adapter)->write(Phake::anyParameters())->thenReturn($expectedSize);
 
-        $this->mediaStorageManager->uploadFile($key, $filePath, false);
+        $size = $this->mediaStorageManager->uploadFile($key, $filePath, $delete);
 
-        Phake::verify($this->adapter, Phake::times(1))->write($key, $filePath);
+        Phake::verify($this->adapter, Phake::times(1))->write(Phake::anyParameters());
+        Phake::verify($this->filesystem, Phake::times($expectedDelete))->remove($filePath);
+        $this->assertSame($size, $expectedSize);
     }
 
     /**
@@ -53,7 +62,35 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
     public function provideKeysAndContents()
     {
         return array(
-            array('someKey', 'someContent')
+            array('someKey', __FILE__, false, 0, 25),
+            array('someKey', __FILE__, true, 1, 42),
+        );
+    }
+
+    /**
+     * Test uploadFile with no file
+     *
+     * @param string $key
+     * @param string $filePath
+     * @param bool   $delete
+     *
+     * @dataProvider provideKeysAndNoContent
+     */
+    public function testUploadFileWithNoFile($key, $filePath, $delete)
+    {
+        $this->setExpectedException('OpenOrchestra\MediaFileBundle\Exception\BadFileException');
+
+        $this->mediaStorageManager->uploadFile($key, $filePath, $delete);
+    }
+
+    /**
+     * @return array
+     */
+    public function provideKeysAndNoContent()
+    {
+        return array(
+            array('someKey', './' , false),
+            array('someKey', './', true),
         );
     }
 

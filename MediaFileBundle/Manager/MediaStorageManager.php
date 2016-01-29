@@ -4,6 +4,7 @@ namespace OpenOrchestra\MediaFileBundle\Manager;
 
 use OpenOrchestra\MediaFileBundle\Exception\BadFileException;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class MediaStorageManager
@@ -11,14 +12,17 @@ use Knp\Bundle\GaufretteBundle\FilesystemMap;
 class MediaStorageManager
 {
     protected $adapter;
+    protected $fileSystem;
 
     /**
      * @param FilesystemMap $filesystemMap
-     * @param string        $filesystem
+     * @param string        $filesystemKey
+     * @param Filesystem    $fileSystem
      */
-    public function __construct(FilesystemMap $filesystemMap, $filesystem)
+    public function __construct(FilesystemMap $filesystemMap, $filesystemKey, Filesystem $fileSystem)
     {
-        $this->adapter = $filesystemMap->get($filesystem)->getAdapter();
+        $this->adapter = $filesystemMap->get($filesystemKey)->getAdapter();
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -40,7 +44,7 @@ class MediaStorageManager
         $size =  $this->adapter->write($key, file_get_contents($filePath));
 
         if ($deleteAfterUpload) {
-            unlink($filePath);
+            $this->fileSystem->remove($filePath);
         }
 
         return $size;
