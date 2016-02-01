@@ -7,3 +7,4 @@ services:
         arguments:
             - @knp_gaufrette.filesystem_map
             - %open_orchestra_media_file.filesystem%
+            - @filesystem
