@@ -14,7 +14,11 @@ class MediaController extends Controller
     /**
      * Send a media stored via the UploadedFileManager
      *
-     * @Config\Route("/{key}", name="open_orchestra_media_get")
+     * @Config\Route(
+     *     name="open_orchestra_media_get",
+     *     path="/{key}",
+     *     host="%open_orchestra_media.media_domain%"
+     * )
      * @Config\Method({"GET"})
      *
      * @return Response
