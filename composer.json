@@ -1,33 +1,33 @@
 {
-    "name": "open-orchestra/open-orchestra-media-file-bundle",
-    "description": "This bundle provide the file management part for the media feature of OpenOrchestra",
-    "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "OpenOrchestra community",
-            "homepage": "https://github.com/open-orchestra/open-orchestra-media-file-bundle/graphs/contributors"
-        }
-    ],
-    "require": {
-        "knplabs/knp-gaufrette-bundle": "v0.1.7"
-    },
-    "require-dev": {
-        "phpunit/phpunit" : "4.7.2",
-        "psr/log": "1.0.0",
-        "codeclimate/php-test-reporter": "dev-master",
-        "phake/phake": "2.1.0"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.1.x-dev"
-        }
-    },
-    "config" : {
-        "bin-dir" : "bin"
-    },
-    "autoload": {
-        "psr-4": {
-            "OpenOrchestra\\MediaFileBundle\\": "MediaFileBundle/"
-        }
+  "name": "open-orchestra/open-orchestra-media-file-bundle",
+  "description": "This bundle provide the file management part for the media feature of OpenOrchestra",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "OpenOrchestra community",
+      "homepage": "https://github.com/open-orchestra/open-orchestra-media-file-bundle/graphs/contributors"
     }
+  ],
+  "require": {
+    "knplabs/knp-gaufrette-bundle": "v0.1.7"
+  },
+  "require-dev": {
+    "phpunit/phpunit" : "4.7.2",
+    "psr/log": "1.0.0",
+    "codeclimate/php-test-reporter": "dev-master",
+    "phake/phake": "2.1.0"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.1.x-dev"
+    }
+  },
+  "config" : {
+    "bin-dir" : "bin"
+  },
+  "autoload": {
+    "psr-4": {
+      "OpenOrchestra\\MediaFileBundle\\": "MediaFileBundle/"
+    }
+  }
 }
