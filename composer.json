@@ -8,7 +8,6 @@
             "homepage": "https://github.com/open-orchestra/open-orchestra-media-file-bundle/graphs/contributors"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "knplabs/knp-gaufrette-bundle": "v0.1.7"
     },
@@ -17,6 +16,11 @@
         "psr/log": "1.0.0",
         "codeclimate/php-test-reporter": "dev-master",
         "phake/phake": "2.1.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.x-dev"
+        }
     },
     "config" : {
         "bin-dir" : "bin"
