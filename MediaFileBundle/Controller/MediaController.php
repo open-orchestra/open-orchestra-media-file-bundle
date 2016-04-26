@@ -35,6 +35,9 @@ class MediaController extends Controller
         $response->setPublic();
         $response->setMaxAge(2629743);
 
+        $date = new \DateTime();
+        $date->modify('+'.$response->getMaxAge().' seconds');
+        $response->setExpires($date);
         return $response;
     }
 }
