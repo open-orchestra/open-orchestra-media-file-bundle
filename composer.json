@@ -10,7 +10,6 @@
   ],
 
   "require": {
-    "php": "~5.5.0",
     "knplabs/knp-gaufrette-bundle": "~0.1.7"
   },
 
