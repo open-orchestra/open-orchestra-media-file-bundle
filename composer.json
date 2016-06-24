@@ -20,12 +20,6 @@
     "codeclimate/php-test-reporter": "~0.3.2"
   },
 
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.2.x-dev"
-    }
-  },
-
   "config": {
     "bin-dir": "bin"
   },
