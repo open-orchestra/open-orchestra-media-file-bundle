@@ -3,8 +3,8 @@ parameters:
 
 services:
     open_orchestra_media_file.manager.storage:
-        class: %open_orchestra_media_file.manager.storage.class%
+        class: '%open_orchestra_media_file.manager.storage.class%'
         arguments:
-            - @knp_gaufrette.filesystem_map
-            - %open_orchestra_media_file.filesystem%
-            - @filesystem
+            - '@knp_gaufrette.filesystem_map'
+            - '%open_orchestra_media_file.filesystem%'
+            - '@filesystem'
