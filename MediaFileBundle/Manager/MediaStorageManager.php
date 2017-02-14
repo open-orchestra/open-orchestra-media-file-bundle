@@ -18,23 +18,23 @@ class MediaStorageManager
     protected $router;
 
     /**
-     * @param FilesystemMap $filesystemMap
-     * @param string        $filesystemKey
-     * @param Filesystem    $fileSystem
-     * @param               $router
-     * @param string        $mediaDomain
+     * @param FilesystemMap         $filesystemMap
+     * @param string                $filesystemKey
+     * @param Filesystem            $fileSystem
+     * @param UrlGeneratorInterface $router
+     * @param string                $mediaDomain
      */
     public function __construct(
         FilesystemMap $filesystemMap,
         $filesystemKey,
         Filesystem $fileSystem,
-        $router,
+        UrlGeneratorInterface $router,
         $mediaDomain
     ){
         $this->adapter = $filesystemMap->get($filesystemKey)->getAdapter();
         $this->fileSystem = $fileSystem;
-        $this->mediaDomain = $mediaDomain;
         $this->router = $router;
+        $this->mediaDomain = $mediaDomain;
     }
 
     /**
