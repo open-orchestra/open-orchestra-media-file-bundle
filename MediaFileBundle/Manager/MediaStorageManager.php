@@ -128,14 +128,14 @@ class MediaStorageManager
         if ($key === null) {
 
             return null;
-        } else {
-            $route = $this->router->generate(
-                'open_orchestra_media_get',
-                array('key' => $key),
-                UrlGeneratorInterface::ABSOLUTE_PATH
-            );
-
-            return '//' . $this->mediaDomain . $route;
         }
+
+        $route = $this->router->generate(
+            'open_orchestra_media_get',
+            array('key' => $key),
+            UrlGeneratorInterface::ABSOLUTE_PATH
+        );
+
+        return '//' . $this->mediaDomain . $route;
     }
 }
