@@ -8,3 +8,5 @@ services:
             - '@knp_gaufrette.filesystem_map'
             - '%open_orchestra_media_file.filesystem%'
             - '@filesystem'
+            - '@router'
+            - '%open_orchestra_media.media_domain%'

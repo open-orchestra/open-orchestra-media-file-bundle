@@ -16,6 +16,8 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
     protected $gaufrettefilesystem;
     protected $filesystemMap;
     protected $filesystem;
+    protected $mediaDomain = 'domain';
+    protected $relativeUrl = 'relativeUrl';
 
     /**
      * Set up the test
@@ -32,8 +34,11 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->filesystem = Phake::mock('Symfony\Component\Filesystem\Filesystem');
 
+        $router = Phake::mock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
+        Phake::when($router)->generate(Phake::anyParameters())->thenReturn($this->relativeUrl);
+
         $this->mediaStorageManager =
-            new MediaStorageManager($this->filesystemMap, 'someFileSystem', $this->filesystem);
+            new MediaStorageManager($this->filesystemMap, 'someFileSystem', $this->filesystem, $router, $this->mediaDomain);
     }
 
     /**
@@ -138,6 +143,32 @@ class MediaStorageManagerTest extends \PHPUnit_Framework_TestCase
         $this->mediaStorageManager->exists($key);
 
         Phake::verify($this->adapter, Phake::times(1))->exists($key);
+    }
+
+    /**
+     * Test getUrl
+     *
+     * @param string $key
+     * @param string $expectedUrl
+     *
+     * @dataProvider provideUrl
+     */
+    public function testGetUrl($key, $expectedUrl)
+    {
+        $url = $this->mediaStorageManager->getUrl($key);
+
+        $this->assertSame($expectedUrl, $url);
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function provideUrl() {
+        return array(
+            array(null, null),
+            array('randomKey', '//' . $this->mediaDomain . $this->relativeUrl),
+        );
     }
 
     /**

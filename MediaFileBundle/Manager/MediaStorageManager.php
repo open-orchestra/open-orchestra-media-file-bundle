@@ -5,6 +5,7 @@ namespace OpenOrchestra\MediaFileBundle\Manager;
 use OpenOrchestra\MediaFileBundle\Exception\BadFileException;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class MediaStorageManager
@@ -13,16 +14,27 @@ class MediaStorageManager
 {
     protected $adapter;
     protected $fileSystem;
+    protected $mediaDomain;
+    protected $router;
 
     /**
-     * @param FilesystemMap $filesystemMap
-     * @param string        $filesystemKey
-     * @param Filesystem    $fileSystem
+     * @param FilesystemMap         $filesystemMap
+     * @param string                $filesystemKey
+     * @param Filesystem            $fileSystem
+     * @param UrlGeneratorInterface $router
+     * @param string                $mediaDomain
      */
-    public function __construct(FilesystemMap $filesystemMap, $filesystemKey, Filesystem $fileSystem)
-    {
+    public function __construct(
+        FilesystemMap $filesystemMap,
+        $filesystemKey,
+        Filesystem $fileSystem,
+        UrlGeneratorInterface $router,
+        $mediaDomain
+    ){
         $this->adapter = $filesystemMap->get($filesystemKey)->getAdapter();
         $this->fileSystem = $fileSystem;
+        $this->router = $router;
+        $this->mediaDomain = $mediaDomain;
     }
 
     /**
@@ -102,5 +114,28 @@ class MediaStorageManager
     public function exists($key)
     {
         return $this->adapter->exists($key);
+    }
+
+    /**
+     * Return the media url
+     *
+     * @param string $key
+     *
+     * @return NULL|string
+     */
+    public function getUrl($key)
+    {
+        if ($key === null) {
+
+            return null;
+        }
+
+        $route = $this->router->generate(
+            'open_orchestra_media_get',
+            array('key' => $key),
+            UrlGeneratorInterface::ABSOLUTE_PATH
+        );
+
+        return '//' . $this->mediaDomain . $route;
     }
 }
